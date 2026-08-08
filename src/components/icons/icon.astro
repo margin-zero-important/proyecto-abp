@@ -1,0 +1,54 @@
+---
+import Moon from '@/components/icons/moon.astro';
+import Sun from '@/components/icons/sun.astro';
+import Ufo from '@/components/icons/ufo.astro';
+import UfoOff from '@/components/icons/ufo-off.astro';
+import ArrowRight from '@/components/icons/arrow-right.astro';
+import ArrowLeft from '@/components/icons/arrow-left.astro';
+import ExternalLink from '@/components/icons/external-link.astro';
+import HandClick from '@/components/icons/hand-click.astro';
+import Info from '@/components/icons/info.astro';
+import Success from '@/components/icons/success.astro';
+import Warning from '@/components/icons/warning.astro';
+import Error from '@/components/icons/error.astro';
+import ChevronLeft from '@/components/icons/chevron-left.astro';
+import ChevronRight from '@/components/icons/chevron-right.astro';
+
+const icons = {
+  moon: Moon,
+  sun: Sun,
+  ufo: Ufo,
+  ufoOff: UfoOff,
+  arrowRight: ArrowRight,
+  arrowLeft: ArrowLeft,
+  externalLink: ExternalLink,
+  handClick: HandClick,
+  info: Info,
+  success: Success,
+  warning: Warning,
+  error: Error,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+};
+
+type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props as Props;
+
+const IconComponent = icons[name];
+---
+
+{
+  IconComponent ? (
+    <IconComponent class={className} />
+  ) : (
+    <span class="text-red-500 font-mono text-xs">
+      [icon "{name}" not found]
+    </span>
+  )
+}
