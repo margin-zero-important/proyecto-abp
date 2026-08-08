@@ -19,5 +19,5 @@ export default defineConfig({
   },
   integrations: [mdx()],
   site: "https://margin-zero-important.github.io",
-  base: prod ? `/${repoName}` : "/",
+  base: prod ? `/${repoName}/` : "/",
 });
