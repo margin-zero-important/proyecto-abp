@@ -1,0 +1,14 @@
+---
+const { href } = Astro.props;
+---
+
+<div
+  class="w-16 border border-custom-gray-200 dark:border-custom-gray-800 rounded-md p-2"
+>
+  <a
+    href={`#${href}`}
+    class="flex mx-auto justify-center font-semibold text-2xl text-center text-custom-gray-900 bg-linear-to-t from-custom-blue-500 to-custom-blue-100 px-2 pb-2 rounded-sm no-underline"
+  >
+    <slot />
+  </a>
+</div>

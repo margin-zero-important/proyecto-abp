@@ -1,0 +1,33 @@
+---
+import { englishPhoneticAlphabet } from '@/data/english-phonetic-alphabet';
+import Letter from '@/components/english/Letter.astro';
+
+interface Props {
+  categoryName: string;
+  groupName: string;
+  class?: string;
+}
+
+const { categoryName, groupName, class: className = '' } = Astro.props;
+
+const phonemeGroup = englishPhoneticAlphabet.categories
+  .find((category) => category.title === categoryName)
+  ?.groups.find((group) => group.title === groupName);
+---
+
+{
+  !phonemeGroup ? (
+    <p class="text-red-500 dark:text-red-400 text-sm italic">
+      Grupo no encontrado: {categoryName} - {groupName}
+    </p>
+  ) : (
+    <div class={`border border-transparent rounded-md p-4 my-8 ${className}`}>
+      <h6 class="text-center mb-4">{phonemeGroup.title}</h6>
+      <div class="flex gap-1 flex-wrap justify-center">
+        {phonemeGroup.items.map(({ symbol, href }) => (
+          <Letter href={href}>{symbol}</Letter>
+        ))}
+      </div>
+    </div>
+  )
+}

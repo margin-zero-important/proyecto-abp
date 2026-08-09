@@ -1,0 +1,42 @@
+---
+import AlphabetItem from '@/components/english/AlphabetItem.astro';
+import Letter from '@/components/english/Letter.astro';
+import type { PhoneticAlphabetDataProps } from '@/types/types';
+
+interface Props {
+  class?: string;
+}
+
+const {
+  table: { categories },
+  class: className = '',
+} = Astro.props as PhoneticAlphabetDataProps;
+---
+
+<div
+  class={`border border-custom-gray-200 dark:border-custom-gray-800 rounded-md py-2 ${className}`}
+>
+  {
+    categories.map((category) => (
+      <article>
+        <header class="pt-2">
+          <h4 class="text-center">{category.title}</h4>
+        </header>
+        <div class="flex flex-col gap-2 justify-center sm:flex-row">
+          {category.groups.map((group) => (
+            <AlphabetItem>
+              <h5 slot="title" class="pb-4 text-center">
+                {group.title}
+              </h5>
+              <div slot="items" class="flex gap-1 flex-wrap justify-center">
+                {group.items.map(({ symbol, href }) => (
+                  <Letter href={href}>{symbol}</Letter>
+                ))}
+              </div>
+            </AlphabetItem>
+          ))}
+        </div>
+      </article>
+    ))
+  }
+</div>
