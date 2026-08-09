@@ -1,0 +1,42 @@
+---
+import type { TableProps } from '@/types/types';
+const {
+  table: { headers, rows },
+  class: className = '',
+} = Astro.props as TableProps;
+---
+
+<div class=`overflow-x-auto my-8 ${className}`>
+  <table
+    class="w-full min-w-96 text-center bg-white dark:bg-custom-blue-700/10 rounded-[10px] overflow-hidden border-collapse"
+  >
+    <thead>
+      <tr>
+        {
+          headers.map((header) => (
+            <th
+              class={`${header.class ?? ''} bg-custom-gray-800 dark:bg-custom-blue-200/10 font-normal text-custom-gray-50 dark:text-custom-gray-200 px-2 py-4`}
+            >
+              {header.title}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            {row.map((cell) => (
+              <td
+                class={`${cell.class ?? ''} border-b border-hueso-light dark:border-custom-blue-800/10 dark:text-text-primary-dark p-1.5`}
+              >
+                {cell.content}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

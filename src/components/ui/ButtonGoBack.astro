@@ -1,0 +1,49 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Button from '@/components/ui/Button.astro';
+
+interface Props extends HTMLAttributes<'button'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'accent' | 'ghost';
+  size?: 'sm' | 'md' | 'lg' | 'icon';
+  disabled?: boolean;
+  fullWidth?: boolean;
+  loading?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  fullWidth = false,
+  loading = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+---
+
+<Button
+  id="go-back"
+  variant={variant}
+  size={size}
+  disabled={disabled}
+  fullWidth={fullWidth}
+  loading={loading}
+  class={className}
+  {...attrs}
+>
+  <slot name="iconLeft" slot="iconLeft" />
+  <slot />
+  <slot name="iconRight" slot="iconRight" />
+</Button>
+
+<script is:inline>
+  function setupGoBack() {
+    const $goBackBtn = document.getElementById('go-back');
+    $goBackBtn?.addEventListener('click', () => {
+      history.back();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupGoBack);
+</script>

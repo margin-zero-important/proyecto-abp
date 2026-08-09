@@ -1,0 +1,140 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import Section from '@/components/english/Section.astro';
+import ButtonGoBack from '@/components/ui/ButtonGoBack.astro';
+import Icon from '@/components/icons/icon.astro';
+import Sidebar from '@/components/english/Sidebar.astro';
+import High from '@/components/ui/Highlight.astro';
+import Slugg from '@/components/english/Slug.astro';
+import Table from '@/components/english/Table.astro';
+import Notice from '@/components/english/Notice.astro';
+
+export async function getStaticPaths() {
+  const topics: CollectionEntry<'english'>[] = await getCollection('english');
+
+  return topics.map((topic) => ({
+    params: { slug: topic.slug },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const allTopics = await getCollection('english');
+
+// 1. Obtenemos los temas relacionados y los ordenamos
+// Si el slug es "alfabeto-introduccion", themeKey será "alfabeto"
+const themeKey = topic.slug.split('-')[0];
+
+const relatedTopics = allTopics
+  .filter((t) => t.slug.includes(themeKey))
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+// 2. Encontramos el índice de la lección actual
+const currentIndex = relatedTopics.findIndex((t) => t.slug === topic.slug);
+
+// 3. Definimos el anterior y el siguiente
+const prevTopic = relatedTopics[currentIndex - 1];
+const nextTopic = relatedTopics[currentIndex + 1];
+
+// 4. Generamos los links para enviárselos al Sidebar
+const relatedLinks = relatedTopics.map((t) => ({
+  href: `${import.meta.env.BASE_URL}english/${t.slug}`,
+  text: t.data.title,
+}));
+
+// Obtenemos la ruta actual para resaltar el link o tema actual
+const currentPath = Astro.url.pathname;
+const { title, description } = topic.data;
+
+const { Content } = await render(topic);
+
+// Componentes globales: al pasarlos desde aquí ya no tengo que
+// importarlos manualmente desde cada archivo .mdx
+const components = {
+  High,
+  Slugg,
+  Table,
+  Notice,
+  Icon,
+  Image,
+};
+---
+
+<Layout title={title} description={description}>
+  <Section>
+    <div class="max-w-3xl w-full px-6 md:px-12">
+      {/* Sidebar automático basado en archivos relacionados */}
+      {
+        relatedLinks.length > 1 && (
+          <Sidebar
+            title="Contenido del tema"
+            relatedLinks={relatedLinks}
+            currentPath={currentPath}
+          />
+        )
+      }
+    </div>
+    <h1 class="max-w-3xl px-6 md:px-12">{title}</h1>
+    <Content components={components} />
+
+    <div
+      class="max-w-3xl px-6 md:px-12 flex justify-between gap-4 border-t border-custom-gray-200 dark:border-custom-gray-800 pt-8 pb-12"
+    >
+      {
+        prevTopic ? (
+          <a
+            href={`${import.meta.env.BASE_URL}english/${prevTopic.slug}`}
+            class="flex flex-col items-start group no-underline px-3 py-1"
+          >
+            <span class="text-custom-blue-700 dark:text-custom-blue-500 font-semibold flex items-center justify-center gap-2.5">
+              <Icon
+                name="chevronLeft"
+                class="border border-custom-blue-700/20 dark:border-custom-blue-500/20 rounded-full m-1 p-1 size-8 group-hover:bg-custom-blue-700/20 group-hover:dark:bg-custom-blue-500/20"
+              />{' '}
+              Prev
+            </span>
+          </a>
+        ) : (
+          <div />
+        )
+      }
+
+      {
+        nextTopic ? (
+          <a
+            href={`${import.meta.env.BASE_URL}english/${nextTopic.slug}`}
+            class="flex flex-col items-end text-right group no-underline px-3 py-1"
+          >
+            <span class="text-custom-blue-700 dark:text-custom-blue-500 font-semibold flex items-center justify-center gap-2.5">
+              Next{' '}
+              <Icon
+                name="chevronRight"
+                class="border border-custom-blue-700/20 dark:border-custom-blue-500/20 rounded-full m-1 p-1 size-8 group-hover:bg-custom-blue-700/20 group-hover:dark:bg-custom-blue-500/20"
+              />
+            </span>
+          </a>
+        ) : (
+          <div />
+        )
+      }
+    </div>
+
+    <div
+      class="fixed left-1 bottom-6 xl:top-1/2 xl:-translate-y-1/2 xl:left-32 xl:bottom-auto"
+    >
+      <ButtonGoBack
+        class="cursor-pointer"
+        size="sm"
+        aria-label="Back to topics"
+      >
+        <Fragment slot="iconLeft">
+          <Icon class="size-5" name="arrowLeft" />
+        </Fragment>
+        <span class="hidden lg:inline-block">Topics</span>
+      </ButtonGoBack>
+    </div>
+  </Section>
+</Layout>

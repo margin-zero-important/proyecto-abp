@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import Section from '@/components/english/Section.astro';
+import LayoutIndex from '@/layouts/LayoutIndex.astro';
+import ButtonGoBack from '@/components/ui/ButtonGoBack.astro';
+import Icon from '@/components/icons/icon.astro';
+
+interface PreparedTopic {
+  slug: string;
+  title: string;
+  description: string;
+  author: string;
+  formattedDate: string;
+}
+
+// 1. Obtener los temas
+const topics: CollectionEntry<'english'>[] = await getCollection('english');
+
+// 2. Filtrar y ordernar para mostrar solos los temas principales,
+// no las "partes" divididas o sub-paginas
+const mainTopics = topics
+  .filter(topic => !topic.data.isPart)
+  .sort((a,b) => a.data.date.getTime() - b.data.date.getTime());
+
+// 2. Mapear la lista y formatear la fecha para cada tema
+const preparedTopics: PreparedTopic[] = mainTopics.map((topic) => {
+  const { slug, data } = topic;
+  const { title, description, author, date } = data;
+
+  const formattedDate = date.toLocaleDateString('es-CO', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  // Retornar un nuevo objeto con los datos ya preparados
+  return { slug, title, description, author, formattedDate };
+});
+---
+
+<LayoutIndex
+  title="Temas"
+  description="índice de todos los temas disponibles para estudiar"
+>
+  <Section>
+    <div class="max-w-3xl w-full pl-6 pr-3 md:px-12">
+      <h1 class="pl-4">Temas</h1>
+      <ul class="flex flex-col gap-4">
+        {
+          preparedTopics.map((topic) => (
+            <li class="relative rounded-lg p-4 hover:scale-[101%] border border-transparent hover:border hover:border-custom-gray-200 hover:dark:border-custom-gray-800 transition-all duration-300 ease-in-out">
+              <span class="font-DM-Sans font-medium text-xl md:text-2xl">
+                {topic.title}
+              </span>
+              <p class="mb-0 mt-1 text-text-secondary-light dark:text-text-secondary-dark text-sm md:text-base">
+                {topic.description}
+              </p>
+              <p class="text-[.625rem] md:text-xs text-text-secondary-light dark:text-text-secondary-dark">
+                Escrito por: {topic.author} - Publicado el {topic.formattedDate}
+              </p>
+              <a
+                href={`${import.meta.env.BASE_URL}english/${topic.slug}`}
+                class="absolute inset-0 z-0 group"
+              >
+                <Icon
+                  name="externalLink"
+                  class="absolute right-2 bottom-2 text-custom-gray-700/30 dark:text-custom-gray-300/40 group-hover:text-custom-gray-700 group-hover:dark:text-custom-gray-200 "
+                />
+                <span class="sr-only">Leer lección sobre {topic.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div
+        class="fixed left-1 bottom-6 xl:top-1/2 xl:-translate-y-1/2 xl:left-32 xl:bottom-auto"
+      >
+        <ButtonGoBack
+          class="cursor-pointer"
+          size="sm"
+          aria-label="Back to Home"
+        >
+          <Fragment slot="iconLeft">
+            <Icon class="size-5" name="arrowLeft" />
+          </Fragment>
+          <span class="hidden lg:inline-block">Home</span>
+        </ButtonGoBack>
+      </div>
+    </div>
+  </Section>
+</LayoutIndex>

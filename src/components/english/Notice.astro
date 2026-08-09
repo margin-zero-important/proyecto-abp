@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string | number;
+  variant?: 'success' | 'error' | 'warning' | 'info';
+  class?: string;
+}
+
+const { title, variant = 'info', class: extraClass = '' } = Astro.props;
+
+const borderVariants = {
+  success: 'border-l-5 border-green-600 dark:border-green-500',
+  error: 'border-l-5 border-red-600 dark:border-red-500',
+  warning: 'border-l-5 border-orange-600 dark:border-orange-500',
+  info: 'border-l-5 border-custom-blue-600 dark:border-custom-blue-500',
+} as const;
+
+const iconColorVariants = {
+  success: 'text-green-600 dark:text-green-500',
+  error: 'text-red-600 dark:text-red-500',
+  warning: 'text-orange-600 dark:text-orange-500',
+  info: 'text-custom-blue-600 dark:text-custom-blue-500',
+} as const;
+
+const className = `${borderVariants[variant]} ${extraClass}`;
+---
+
+<div class=`${className} border rounded-md p-6 pb-0 my-5`>
+  <div class="flex gap-2 mb-4">
+    <div class={`my-auto ${iconColorVariants[variant]}`}>
+      <slot name="icon" />
+    </div>
+    <span class="text-base md:text-lg">{title}</span>
+  </div>
+  <div>
+    <slot />
+  </div>
+</div>
