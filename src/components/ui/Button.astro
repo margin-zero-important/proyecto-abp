@@ -1,0 +1,95 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'accent' | 'ghost';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'icon';
+  disabled?: boolean;
+  fullWidth?: boolean;
+  loading?: boolean;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  disabled = false,
+  fullWidth = false,
+  loading = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const baseClasses =
+  'relative inline-flex items-center justify-center font-medium rounded-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2';
+
+const variantClasses = {
+  primary:
+    'bg-custom-blue-500 text-custom-blue-900 hover:bg-custom-blue-300 active:bg-custom-blue-600 focus:ring-custom-blue-500 disabled:text-custom-gray-300 disabled:dark:text-custom-gray-700 disabled:bg-custom-gray-200 disabled:dark:bg-custom-gray-800',
+  secondary:
+    'bg-custom-gray-400 text-custom-gray-900 hover:bg-custom-gray-200 active:bg-custom-gray-600 focus:ring-custom-blue-500 disabled:text-custom-gray-300 disabled:dark:text-custom-gray-700 disabled:bg-custom-gray-200 disabled:dark:bg-custom-gray-800',
+  outline:
+    'border border-custom-blue-700 text-custom-blue-700 dark:border-custom-blue-500 dark:text-custom-blue-500 hover:border-custom-blue-500 hover:bg-custom-blue-500 hover:text-custom-blue-900 active:bg-custom-blue-600 focus:ring-custom-blue-500 disabled:text-custom-gray-300 disabled:dark:text-custom-gray-700 disabled:border-custom-gray-200 disabled:dark:border-custom-gray-800 disabled:bg-transparent disabled:dark:bg-transparent',
+  accent:
+    'bg-orange-500 text-custom-gray-900 hover:bg-orange-400 active:bg-orange-700 focus:ring-orange-400 disabled:text-custom-gray-300 disabled:dark:text-custom-gray-700 disabled:bg-custom-gray-200 disabled:dark:bg-custom-gray-800',
+  ghost:
+    'text-custom-blue-700 dark:text-custom-blue-500 hover:bg-custom-gray-100 hover:dark:bg-custom-gray-800 active:bg-custom-gray-300 focus:ring-custom-blue-500 disabled:text-custom-gray-300 disabled:dark:text-custom-gray-700 disabled:bg-transparent disabled:dark:bg-transparent',
+};
+
+const sizeClasses = {
+  xs: 'px-2.5 py-1 text-xs',
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
+  icon: 'px-3.5 py-3.5',
+};
+
+const fullWidthClasses = fullWidth ? 'w-full' : '';
+
+const loadingClasses = loading ? 'cursor-not-allowed opacity-75' : '';
+---
+
+<button
+  class:list={[
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    fullWidthClasses,
+    loadingClasses,
+    className,
+  ]}
+  disabled={disabled || loading}
+  {...attrs}
+>
+  {
+    loading && (
+      <div class="absolute inset-0 flex items-center justify-center">
+        <svg
+          class="animate-spin h-5 w-5 text-current"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          />
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          />
+        </svg>
+      </div>
+    )
+  }
+
+  <span class:list={['flex items-center gap-2', loading ? 'invisible' : '']}>
+    <slot name="iconLeft" />
+    <slot />
+    <slot name="iconRight" />
+  </span>
+</button>

@@ -1,0 +1,43 @@
+---
+import LayoutIndex from '@/layouts/LayoutIndex.astro';
+import Button from '@/components/ui/Button.astro';
+import Link from '@/components/ui/Link.astro';
+import Icon from '@/components/icons/icon.astro';
+---
+
+<LayoutIndex
+  title="Zero English"
+  description="Página de inicio del proyecto zero english"
+>
+  <div class="flex flex-col items-center min-h-full">
+    <div class="m-auto flex flex-col items-center p-20">
+      <img
+        class="w-35 rounded-full animate-floating drop-shadow-[0_0_4px_rgba(0,153,255,0.5)]"
+        src={`${import.meta.env.BASE_URL}favicon.svg`}
+        alt="Logo del proyecto zero english"
+        title="Logo del proyecto zero english"
+      />
+      <div
+        class="w-20 h-2 bg-custom-blue-500 rounded-full blur-md scale-x-110 animate-pulse"
+      >
+      </div>
+      <h1
+        class="uppercase italic font-extrabold text-center mt-6 mb-4 px-3 bg-linear-to-r from-green-500 via-custom-blue-500 to-green-500 text-transparent bg-clip-text bg-size-[200%_auto] animate-gradient"
+      >
+        Zero English
+      </h1>
+      <p
+        class="text-sm text-center text-pretty text-text-secondary-light dark:text-text-secondary-dark mb-10 md:text-lg"
+      >
+        "Lo que fue, ya se ha ido; lo que sueñas, aún te espera."
+      </p>
+      <Link href={`${import.meta.env.BASE_URL}english/`}>
+        <Button size="lg" class="cursor-pointer">
+          Get Started <Fragment slot="iconRight">
+            <Icon name="arrowRight" /></Fragment
+          >
+        </Button>
+      </Link>
+    </div>
+  </div>
+</LayoutIndex>

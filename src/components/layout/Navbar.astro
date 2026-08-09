@@ -1,0 +1,45 @@
+---
+interface NavItem {
+  name: string;
+  href: string;
+}
+
+// Misma ruta del "base" en astro.config.mjs
+const siteBase = import.meta.env.BASE_URL;
+
+const navItems: NavItem[] = [
+  { name: 'Home', href: `${siteBase}` },
+  { name: 'Temas', href: `${siteBase}english/` },
+];
+
+interface Props {
+  isHorizontal?: boolean;
+}
+
+const { isHorizontal = false } = Astro.props as Props;
+
+const currentPathname = Astro.url.pathname;
+---
+
+<ul
+  class={`${isHorizontal ? 'hidden md:flex md:gap-8' : 'flex flex-col gap-5 w-full mt-21.5'}`}
+>
+  {
+    navItems.map((item: NavItem) => {
+      const isActive =
+        currentPathname === item.href ||
+        (item.href !== siteBase && currentPathname.startsWith(item.href));
+
+      return (
+        <li>
+          <a
+            class={`text-md font-semibold pt-0.5 pb-1 px-2 rounded-sm shadow-sm no-underline md:text-base ${isActive ? 'bg-custom-gray-900 text-white dark:bg-white dark:text-custom-gray-900' : 'bg-black/10 text-custom-gray-900 dark:bg-white/10 dark:text-white hover:text-custom-blue-600 dark:hover:text-custom-blue-500 transition-all duration-300 ease-in-out'}`}
+            href={item.href}
+          >
+            {item.name}
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
