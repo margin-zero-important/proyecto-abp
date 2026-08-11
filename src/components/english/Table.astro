@@ -1,42 +1,70 @@
 ---
 import type { TableProps } from '@/types/types';
+
 const {
   table: { headers, rows },
   class: className = '',
 } = Astro.props as TableProps;
 ---
 
-<div class=`overflow-x-auto my-8 ${className}`>
-  <table
-    class="w-full min-w-96 text-center bg-white dark:bg-custom-blue-700/10 rounded-[10px] overflow-hidden border-collapse"
-  >
-    <thead>
-      <tr>
+<div class={`my-8 ${className}`}>
+  <!-- Desktop -->
+  <div class="hidden md:block overflow-x-auto">
+    <table
+      class="w-full table-auto text-center bg-white dark:bg-custom-blue-700/10 rounded-[10px] overflow-hidden border-collapse"
+    >
+      <thead>
+        <tr>
+          {
+            headers.map((header) => (
+              <th
+                class={`${header.class ?? ''} bg-custom-gray-800 dark:bg-custom-blue-200/10 font-normal text-custom-gray-50 dark:text-custom-gray-200 px-2 py-4`}
+              >
+                {header.title}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+
+      <tbody>
         {
-          headers.map((header) => (
-            <th
-              class={`${header.class ?? ''} bg-custom-gray-800 dark:bg-custom-blue-200/10 font-normal text-custom-gray-50 dark:text-custom-gray-200 px-2 py-4`}
-            >
-              {header.title}
-            </th>
+          rows.map((row) => (
+            <tr>
+              {row.map((cell) => (
+                <td
+                  class={`${cell.class ?? ''} border-b border-hueso-light dark:border-custom-blue-800/10 dark:text-text-primary-dark p-2 whitespace-normal wrap-break-word`}
+                >
+                  {cell.content}
+                </td>
+              ))}
+            </tr>
           ))
         }
-      </tr>
-    </thead>
-    <tbody>
-      {
-        rows.map((row) => (
-          <tr>
-            {row.map((cell) => (
-              <td
-                class={`${cell.class ?? ''} border-b border-hueso-light dark:border-custom-blue-800/10 dark:text-text-primary-dark p-1.5`}
-              >
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile -->
+  <div
+    class="md:hidden flex flex-col gap-3 space p-2 rounded-xl bg-white dark:bg-custom-blue-700/10"
+  >
+    {
+      rows.map((row) => (
+        <div class="rounded-xl border border-hueso-light dark:border-custom-blue-800/20 bg-white dark:bg-custom-blue-700/10 p-4">
+          {row.map((cell, index) => (
+            <div class="flex justify-between gap-4 py-2 border-b last:border-b-0 border-hueso-light dark:border-custom-blue-800/10">
+              <span class="font-medium text-custom-gray-800 dark:text-custom-gray-200">
+                {headers[index]?.title}
+              </span>
+
+              <span class="text-right text-custom-gray-700 dark:text-text-primary-dark wrap-break-word">
                 {cell.content}
-              </td>
-            ))}
-          </tr>
-        ))
-      }
-    </tbody>
-  </table>
+              </span>
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </div>
 </div>
