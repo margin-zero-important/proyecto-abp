@@ -4,9 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import mdx from "@astrojs/mdx";
 
-const prod = process.env.NODE_ENV === "production";
-const repoName = "proyecto-abp";
-
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -18,6 +15,6 @@ export default defineConfig({
     },
   },
   integrations: [mdx()],
-  site: "https://margin-zero-important.github.io",
-  base: prod ? `/${repoName}/` : "/",
+  // site: 'https://midominio.com',
+  base: "/",
 });
