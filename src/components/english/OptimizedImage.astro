@@ -1,0 +1,49 @@
+---
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  imageSrc: ImageMetadata;
+  alt: string;
+  title?: string;
+  caption?: string;
+  class?: string;
+}
+
+const {
+  imageSrc,
+  alt = '',
+  title = '',
+  caption = '',
+  class: className = '',
+} = Astro.props;
+
+// Normalizar la URL
+const imageUrl = imageSrc.src.startsWith('/')
+  ? imageSrc.src
+  : `/${imageSrc.src}`;
+---
+
+<div class=`h-auto p-2 rounded-md bg-white w-fit my-8 ${className}`>
+  <figure class="m-0">
+    <div class="w-full bg-green-200 text-black overflow-hidden rounded-md">
+      <img
+        class="w-full h-auto block"
+        src={imageUrl}
+        width={imageSrc.width}
+        height={imageSrc.height}
+        alt={alt}
+        title={title}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    {
+      caption && (
+        <figcaption class="text-gray-700/90 text-center text-sm mt-3">
+          {caption}
+        </figcaption>
+      )
+    }
+  </figure>
+</div>
