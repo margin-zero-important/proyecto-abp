@@ -49,23 +49,23 @@ const preparedTopics: PreparedTopic[] = mainTopics.map((topic) => {
       <ul class="flex flex-col gap-4">
         {
           preparedTopics.map((topic) => (
-            <li class="relative rounded-lg p-4 hover:scale-[101%] border border-transparent hover:border hover:border-custom-gray-200 hover:dark:border-custom-gray-800 transition-all duration-300 ease-in-out">
+            <li class="relative rounded-lg p-4 pt-6 bg-custom-gray-50/55 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] dark:bg-custom-gray-900/35 dark:backdrop-blur-[20px] dark:shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] border border-transparent hover:scale-[101%] hover:border hover:border-custom-gray-200 hover:dark:border-custom-gray-800 transition-all duration-300 ease-in-out">
               <span class="font-DM-Sans font-medium text-xl md:text-2xl">
                 {topic.title}
               </span>
-              <p class="mb-0 mt-1 text-text-secondary-light dark:text-text-secondary-dark text-sm md:text-base">
+              <p class="mb-3 mt-1 text-text-secondary-light dark:text-text-secondary-dark text-sm md:text-base">
                 {topic.description}
               </p>
-              <p class="text-[.625rem] md:text-xs text-text-secondary-light dark:text-text-secondary-dark">
+              <span class="text-[.625rem] md:text-xs text-text-secondary-light/80 dark:text-text-secondary-dark/80">
                 Escrito por: {topic.author} - Publicado el {topic.formattedDate}
-              </p>
+              </span>
               <a
                 href={`${import.meta.env.BASE_URL}english/${topic.slug}`}
                 class="absolute inset-0 z-0 group"
               >
                 <Icon
                   name="externalLink"
-                  class="absolute right-2 bottom-2 text-custom-gray-700/30 dark:text-custom-gray-300/40 group-hover:text-custom-gray-700 group-hover:dark:text-custom-gray-200 "
+                  class="absolute right-2 bottom-5 text-custom-gray-700/30 dark:text-custom-gray-300/40 group-hover:text-custom-gray-700 group-hover:dark:text-custom-gray-200 "
                 />
                 <span class="sr-only">Leer lección sobre {topic.title}</span>
               </a>
