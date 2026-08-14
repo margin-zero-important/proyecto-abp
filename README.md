@@ -10,8 +10,9 @@
   - [Problema](#problema)
   - [Solución basada en la nube](#solución-basada-en-la-nube)
 - [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
+- [⚙️ Metodología de desarrollo (Agile/Scrum adaptado a desarrollo individual)](#️-metodología-de-desarrollo-agilescrum-adaptado-a-desarrollo-individual)
 - [🔢 Pasos para el desarrollo](#-pasos-para-el-desarrollo)
-- [🚀 MVP](#-mvp)
+- [🚀 MVP (Producto Mínimo Viable)](#-mvp-producto-mínimo-viable)
   - [Posibles implementaciones futuras](#posibles-implementaciones-futuras)
 - [☁️ Implicación de la nube](#️-implicación-de-la-nube)
 - [🧱 Arquitectura que evidencia el trabajo técnico](#-arquitectura-que-evidencia-el-trabajo-técnico)
@@ -75,40 +76,38 @@ La solución aprovecha la nube de la siguiente manera:
 | Certificados SSL     | Let’s Encrypt + Certbot       |
 | Acceso remoto        | SSH                           |
 
+## ⚙️ Metodología de desarrollo (Agile/Scrum adaptado a desarrollo individual)
+
+El proyecto se desarrolla bajo un enfoque ágil e incremental adaptado (Scrum). Se implementa un producto mínimo viable compuesto inicialmente por el tema “Alfabeto”, el cual se despliega en producción. Posteriormente, se incorporan nuevos módulos temáticos (pronombres, verbos, artículos, etc.) mediante iteraciones sucesivas (sprints), permitiendo entregas funcionales frecuentes y evolución continua del sitio web.
+
 ## 🔢 Pasos para el desarrollo
 
 - **Definición y control de versiones:** Inicializar el proyecto localmente con **Astro** y **Markdown**, versionando el código mediante **Git** y respaldándolo en un repositorio remoto en **GitHub**.
+- **Desarrollo del MVP:** Construir la versión inicial y funcional del sitio web utilizando Astro, enfocándose exclusivamente en el despliegue del módulo temático “Alfabeto” para validar la arquitectura inicial y el flujo completo de publicación.
 - **Aprovisionamiento del servidor cloud:** Crear y configurar una instancia de servidor virtual (VPS) en **Linode** con **Ubuntu Server**, asegurando el acceso remoto mediante **SSH**.
 - **Configuración del servidor web:** Instalar y configurar **Nginx** como servidor web de alto rendimiento (aprovechando que el sitio es estático, se puede servir directamente tras el proceso de _build_, reduciendo el consumo de memoria y optimizando la seguridad).
 - **Vinculación de dominio:** Conectar el dominio personalizado obtenido a través del **GitHub Student Developer Pack** hacia la dirección IP del servidor.
 - **Seguridad y despliegue final:** Activar el protocolo **HTTPS** utilizando certificados SSL gratuitos de **Let's Encrypt con Certbot** y realizar el primer despliegue de la plataforma en producción.
 
-La ejecución de los pasos en el orden propuesto funciona muy bien por **va de adentro hacia afuera:** Primero se construye el sitio y se asegura el código (Astro + GitHub), luego se prepara la casa en la nube (Linode + Nginx), y finalmente se conecta la cara pública (Dominio + HTTPS).
+La ejecución de los pasos en el orden propuesto funciona muy bien porque **va de adentro hacia afuera:** Primero se construye el sitio y se asegura el código (Astro + GitHub), luego se prepara la casa en la nube (Linode + Nginx), y finalmente se conecta la cara pública (Dominio + HTTPS).
 
-## 🚀 MVP
+## 🚀 MVP (Producto Mínimo Viable)
 
-Para el taller ABP se propone un MVP (producto mínimo viable) con:
+Para el taller ABP se propone un MVP funcional enfocado en la experiencia de usuario y el despliegue en producción:
 
-- Página de inicio.
-- Lista de lecciones de inglés.
-- Lecciones escritas en Markdown.
-- Navegación entre temas.
-- Diseño responsive para móvil y computador.
-- Modo claro/oscuro
-- Dominio personalizado
-- HTTPS activo.
-- Búsqueda simple de lecciones (pendiente)
-- Despliegue público en Linode.
+- **Estructura y Contenido:** Página de inicio, lista de lecciones y lecciones redactadas en **Markdown**.
+- **Navegación y UX:** Navegación fluida entre temas, diseño *responsive* (móvil y escritorio) y soporte para **modo claro/oscuro**.
+- **Infraestructura y Despliegue:** Dominio personalizado, protocolo **HTTPS** activo y despliegue público en un servidor VPS en **Linode**.
+- *Nota:* La funcionalidad de búsqueda simple se encuentra planificada para un incremento posterior.
 
 ### Posibles implementaciones futuras
 
-Como evolución del sistema se propone:
+Como evolución del sistema para escalar el proyecto, se proponen las siguientes características:
 
-- Base de datos para almacenamiento del contenido.
-- Panel administrativo para crear contenido desde la web.
-- Registro e inicio de sesión.
-	- Seguimiento del progreso de aprendizaje.
-	- Marcado de lecciones favoritas.
+- Integración de una base de datos para la gestión dinámica del contenido.
+- Panel administrativo web para la creación y edición de lecciones.
+- Sistema de autenticación (registro e inicio de sesión).
+- Seguimiento del progreso de aprendizaje del usuario y marcado de lecciones favoritas.
 
 ## ☁️ Implicación de la nube
 
