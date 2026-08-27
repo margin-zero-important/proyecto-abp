@@ -92,6 +92,9 @@
   a {
     @apply text-custom-blue-700 dark:text-custom-blue-300 underline hover:text-custom-blue-600 hover:no-underline;
   }
+  ul {
+    @apply list-disc list-inside mb-6;
+  }
 }
 
 @layer components {
