@@ -22,7 +22,7 @@ const currentPathname = Astro.url.pathname;
 ---
 
 <ul
-  class={`${isHorizontal ? 'hidden list-none md:flex md:gap-8' : 'flex flex-col gap-5 w-full mt-21.5'}`}
+  class={`${isHorizontal ? 'hidden list-none mb-0 md:flex md:gap-8' : 'list-none flex flex-col gap-5 w-full mt-21.5'}`}
 >
   {
     navItems.map((item: NavItem) => {
