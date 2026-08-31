@@ -1,230 +1,289 @@
+# 💡 Taller APB / Zero English 🗣️
+
 ![Home de zero english](./src/assets/images/zero-english.webp)
 
-# 💡 Proyecto / Zero English 🗣️ <!-- omit in toc -->
+<!-- Descripción -->
 
-### Contenido <!-- omit in toc -->
-
-
-- [Contexto](#contexto)
-  - [Nombre](#nombre)
-  - [Problema](#problema)
-  - [Solución basada en la nube](#solución-basada-en-la-nube)
-- [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
-- [⚙️ Metodología de desarrollo (Agile/Scrum adaptado a desarrollo individual)](#️-metodología-de-desarrollo-agilescrum-adaptado-a-desarrollo-individual)
-- [🔢 Pasos para el desarrollo](#-pasos-para-el-desarrollo)
-- [🚀 MVP (Producto Mínimo Viable)](#-mvp-producto-mínimo-viable)
-  - [Posibles implementaciones futuras](#posibles-implementaciones-futuras)
-- [☁️ Implicación de la nube](#️-implicación-de-la-nube)
-- [🧱 Arquitectura que evidencia el trabajo técnico](#-arquitectura-que-evidencia-el-trabajo-técnico)
-  - [Situación problema](#situación-problema)
-  - [Análisis de Requerimientos](#análisis-de-requerimientos)
-  - [Flujo de datos](#flujo-de-datos)
-  - [Diagrama de flujo conceptual](#diagrama-de-flujo-conceptual)
-  - [Capas de la arquitectura](#capas-de-la-arquitectura)
-  - [Justificación de decisiones técnicas](#justificación-de-decisiones-técnicas)
-  - [Seguridad aplicada](#seguridad-aplicada)
-  - [Escalabilidad contemplada](#escalabilidad-contemplada)
-- [💰 Presupuesto estimado para la implementación](#-presupuesto-estimado-para-la-implementación)
+<details open>
+<summary style="margin-bottom: 32px;">
+  <h2 style="display: inline; font-size: 1.5em; margin: 0;">📝 Descripción</h2>
+</summary>
 
 
-## Contexto
+**Zero English** es una plataforma web para el aprendizaje de inglés, desarrollada con **Astro** y orientada a organizar y presentar contenidos educativos de manera estructurada y accesible desde cualquier dispositivo con conexión a Internet.
 
-### Nombre
+El proyecto surge a partir de la necesidad de solucionar el problema de tener apuntes, ejercicios y recursos de aprendizaje almacenados únicamente en el computador personal. Esta situación dificulta el acceso desde otros dispositivos, el mantenimiento de los contenidos y la disponibilidad de la información.
 
-"Diseño de una arquitectura en la nube para una plataforma de aprendizaje de inglés basada en contenidos Markdown."
+La solución consiste en una aplicación web estática cuyos contenidos educativos se escriben utilizando **Markdown** y son transformados por Astro en páginas HTML, CSS y JavaScript durante el proceso de construcción (*build*).
 
-### Problema
+El proyecto se desarrolló inicialmente como un **MVP**, comenzando con el tema del *Alfabeto*. Posteriormente, se contempla incorporar nuevos temas de inglés y otros contenidos relacionados.
 
-Un estudiante de inglés organiza sus apuntes, ejercicios, audios y documentos en carpetas de su computador personal. Esta forma de almacenamiento presenta varias dificultades:
+</details>
 
-- El contenido solo está disponible en el equipo donde fue guardado.
-- No puede continuar el estudio fácilmente desde el celular, una tablet o otro computador.
-- Existe riesgo de pérdida de información por daño del disco, robo del equipo o eliminación accidental.
-- Compartir material con otros estudiantes requiere enviarlo manualmente por correo o mensajería.
-- El mantenimiento y respaldo dependen completamente del usuario.    
+<!-- Arquitectura -->
 
-Como consecuencia, el proceso de aprendizaje se vuelve poco flexible, inseguro y difícil de mantener a largo plazo.
+<details>
+<summary style="margin-bottom: 32px;">
+  <h2 style="display: inline; font-size: 1.5em; margin: 0;">🧱 Arquitectura</h2>
+</summary>
 
-### Solución basada en la nube
+La arquitectura implementada utiliza una aplicación web estática desplegada en un servidor virtual de **Microsoft Azure**.
 
-Se propone desarrollar una plataforma web estática de aprendizaje de inglés desplegada en un servidor cloud de Linode, accesible mediante un dominio propio y conexión HTTPS. Las lecciones estarán almacenadas de forma centralizada y publicadas como páginas web generadas desde archivos Markdown.
+El flujo general es el siguiente:
 
-La solución aprovecha la nube de la siguiente manera:
-
-- **Acceso ubicuo:** el estudiante puede consultar el contenido desde cualquier dispositivo con Internet.
-- **Disponibilidad permanente:** el servidor permanece encendido 24/7, independientemente del estado del computador del estudiante.
-- **Centralización del contenido:** todas las lecciones se administran en un único repositorio, facilitando actualizaciones y mantenimiento.
-- **Seguridad:** el acceso se realiza mediante HTTPS y el servidor puede protegerse con firewall y autenticación SSH.
-- **Respaldo y recuperación:** la infraestructura cloud permite realizar snapshots o copias de seguridad del servidor.
-- **Escalabilidad:** si aumenta la cantidad de usuarios o contenido, los recursos del VPS pueden ampliarse sin rediseñar la aplicación.
-- **Portabilidad:** el código y los contenidos quedan versionados en GitHub, permitiendo restaurar o migrar el proyecto fácilmente.
-
-
-## 🛠️ Tecnologías utilizadas
-
-| Componente           | Tecnología                    |
-| -------------------- | ----------------------------- |
-| Generador del sitio  | Astro                         |
-| Contenido            | Markdown Collections          |
-| Estilos              | Tailwind CSS                  |
-| Control de versiones | Git + GitHub                  |
-| Servidor web         | Nginx                         |
-| Sistema operativo    | Ubuntu Server 24.04           |
-| Entorno de ejecución | Node.js 22 LTS                |
-| Plataforma cloud     | Linode (Akamai Cloud)         |
-| Dominio              | GitHub Student Developer Pack |
-| Certificados SSL     | Let’s Encrypt + Certbot       |
-| Acceso remoto        | SSH                           |
-
-## ⚙️ Metodología de desarrollo (Agile/Scrum adaptado a desarrollo individual)
-
-El proyecto se desarrolla bajo un enfoque ágil e incremental adaptado (Scrum). Se implementa un producto mínimo viable compuesto inicialmente por el tema “Alfabeto”, el cual se despliega en producción. Posteriormente, se incorporan nuevos módulos temáticos (pronombres, verbos, artículos, etc.) mediante iteraciones sucesivas (sprints), permitiendo entregas funcionales frecuentes y evolución continua del sitio web.
-
-## 🔢 Pasos para el desarrollo
-
-- **Definición y control de versiones:** Inicializar el proyecto localmente con **Astro** y **Markdown**, versionando el código mediante **Git** y respaldándolo en un repositorio remoto en **GitHub**.
-- **Desarrollo del MVP:** Construir la versión inicial y funcional del sitio web utilizando Astro, enfocándose exclusivamente en el despliegue del módulo temático “Alfabeto” para validar la arquitectura inicial y el flujo completo de publicación.
-- **Aprovisionamiento del servidor cloud:** Crear y configurar una instancia de servidor virtual (VPS) en **Linode** con **Ubuntu Server**, asegurando el acceso remoto mediante **SSH**.
-- **Configuración del servidor web:** Instalar y configurar **Nginx** como servidor web de alto rendimiento (aprovechando que el sitio es estático, se puede servir directamente tras el proceso de _build_, reduciendo el consumo de memoria y optimizando la seguridad).
-- **Vinculación de dominio:** Conectar el dominio personalizado obtenido a través del **GitHub Student Developer Pack** hacia la dirección IP del servidor.
-- **Seguridad y despliegue final:** Activar el protocolo **HTTPS** utilizando certificados SSL gratuitos de **Let's Encrypt con Certbot** y realizar el primer despliegue de la plataforma en producción.
-
-La ejecución de los pasos en el orden propuesto funciona muy bien porque **va de adentro hacia afuera:** Primero se construye el sitio y se asegura el código (Astro + GitHub), luego se prepara la casa en la nube (Linode + Nginx), y finalmente se conecta la cara pública (Dominio + HTTPS).
-
-## 🚀 MVP (Producto Mínimo Viable)
-
-Para el taller ABP se propone un MVP funcional enfocado en la experiencia de usuario y el despliegue en producción:
-
-- **Estructura y Contenido:** Página de inicio, lista de lecciones y lecciones redactadas en **Markdown**.
-- **Navegación y UX:** Navegación fluida entre temas, diseño *responsive* (móvil y escritorio) y soporte para **modo claro/oscuro**.
-- **Infraestructura y Despliegue:** Dominio personalizado, protocolo **HTTPS** activo y despliegue público en un servidor VPS en **Linode**.
-- *Nota:* La funcionalidad de búsqueda simple se encuentra planificada para un incremento posterior.
-
-### Posibles implementaciones futuras
-
-Como evolución del sistema para escalar el proyecto, se proponen las siguientes características:
-
-- Integración de una base de datos para la gestión dinámica del contenido.
-- Panel administrativo web para la creación y edición de lecciones.
-- Sistema de autenticación (registro e inicio de sesión).
-- Seguimiento del progreso de aprendizaje del usuario y marcado de lecciones favoritas.
-
-## ☁️ Implicación de la nube
-
-La nube se evidencia en la infraestructura utilizada:
-
-- **Infraestructura bajo demanda:** El servidor virtual se crea desde el panel de Linode en minutos, sin necesidad de comprar hardware físico.
-- **Acceso global:** La plataforma está disponible desde cualquier parte del mundo con conexión a Internet.
-- **Seguridad:** Se utiliza autenticación en el servidor y HTTPS con certificado SSL emitido por Let's Encrypt.
-- **Persistencia:** Los contenidos permanecen almacenados en el servidor cloud aunque el computador del desarrollador esté apagado.
-- **Escalabilidad:** El VPS puede aumentar CPU, RAM o almacenamiento desde el panel de Linode sin reinstalar la aplicación.
-- **Respaldo y recuperación:** Linode ofrece snaptshots y copias de seguridad del servidor para recuperación ante fallos.
-
-Con todo esto el proyecto estaría cumpliendo con conceptos básicos de computación en la nube: disponibilidad, elasticidad, acceso remoto, respaldo y administración centralizada.
-
-## 🧱 Arquitectura que evidencia el trabajo técnico
-
-Para dar cumplimiento a los requerimientos del proyecto y demostrar la aplicación de conceptos de computación en la nube, la solución se estructura bajo los siguientes ejes técnicos:
-
-### Situación problema
-
-El estudiante no cuenta con una plataforma centralizada y accesible para acceder y estudiar inglés con sus apuntes desde distintos dispositivos.
-
-### Análisis de Requerimientos
-
-- **Requerimientos funcionales:** El sistema permite a los usuarios consultar lecciones estructuradas, realizar búsquedas de temas específicos, navegar dinámicamente entre los contenidos y visualizar la plataforma de forma óptima tanto en dispositivos móviles como en computadores de escritorio.
-    
-- **Requerimientos no funcionales:** Se garantiza una disponibilidad permanente (24/7), seguridad en la transmisión de datos mediante cifrado HTTPS, optimización de recursos para mantener un bajo costo operativo y una arquitectura de fácil mantenimiento y despliegue.
-
-### Flujo de datos
-
-1. **El contenido** se escribe en archivos Markdown.
-2. **Astro** construye el sitio generando archivos HTML, CSS y JavaScript estáticos a partir de esos Markdown.
-3. **El sitio generado** se sube a GitHub y desde allí se transfiere al servidor en **Linode**.
-4. **Nginx** sirve los archivos estáticos a los usuarios finales a través de HTTPS.
-5. **El usuario** accede desde cualquier dispositivo mediante el dominio personalizado.
-
-### Diagrama de flujo conceptual
-
-La plataforma permitirá publicar lecciones de inglés escritas en archivos Markdown y acceder a ellas desde cualquier navegador mediante un dominio propio.
-
-```
-                    ┌─────────────────────┐
-                    │     Estudiante      │
-                    │ Navegador Web/Móvil │
-                    └──────────┬──────────┘
-                               │ HTTPS
-                               ▼
-                    ┌─────────────────────┐
-                    │  Dominio propio     │
-                    │  (GitHub Student)   │
-                    └──────────┬──────────┘
-                               │ DNS
-                               ▼
-                    ┌─────────────────────┐
-                    │   Linode VPS        │
-                    │ Ubuntu Server       │
-                    │ Nginx               │
-                    └──────────┬──────────┘
-                               │ Archivos estáticos
-                               ▼
-                    ┌─────────────────────┐
-                    │   Astro (build)     │
-                    │ HTML/CSS/JS         │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────-┐
-                    │ Markdown de lecciones│
-                    │ audios y recursos    │
-                    └──────────┬─────────-─┘
-                               │
-                               ▼
-           ┌─────────────────────────────────────┐
-           │ GitHub (repositorio del proyecto)   │
-           │ código fuente y control de versiones│
-           └─────────────────────────────────────┘
+```text
+┌─────────────────────────┐
+│        Usuario          │
+│   Navegador web/móvil   │
+└────────────┬────────────┘
+             │ HTTP/HTTPS
+             ▼
+┌─────────────────────────┐
+│     IP pública Azure    │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│    Microsoft Azure      │
+│    Servidor Linux       │
+│         Nginx           │
+└────────────┬────────────┘
+             │ Archivos estáticos
+             ▼
+┌─────────────────────────┐
+│      Astro - build      │
+│       HTML/CSS/JS       │
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│   Contenidos Markdown   │
+│   + recursos estáticos  │
+└─────────────────────────┘
+             ▲
+             │
+┌─────────────────────────┐
+│         GitHub          │
+│ Código fuente y Git     │
+└─────────────────────────┘
 ```
 
->**Flujo:** el usuario entra al dominio → el DNS apunta al servidor Linode → Nginx entrega los archivos generados por Astro → el contenido proviene de las lecciones Markdown almacenadas en el repositorio del proyecto.
+### 🛠️ Tecnologías utilizadas
 
-### Capas de la arquitectura
+| Componente                 | Tecnología                    |
+| -------------------------- | ----------------------------- |
+| Generador de la web        | Astro                         |
+| Contenido                  | Markdown / Content Collections|
+| Estilos                    | Tailwind CSS                  |
+| Control de versiones       | Git + GitHub                  |
+| Proveedor cloud            | Microsoft Azure               |
+| Entorno de ejecución/build | Node.js                       |
+| Servidor web               | Nginx                         |
+| Sistema operativo          | Ubuntu Server 24.04           |
+| Acceso remoto              | SSH                           |
 
-| Capa                        | Descripción                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| **Capa de contenido**       | Archivos Markdown versionados en GitHub.                             |
-| **Capa de generación**      | Astro transforma Markdown en HTML estático.                          |
-| **Capa de servidor web**    | Nginx en Ubuntu Server 24.04 sirve los archivos.                     |
-| **Capa de red y seguridad** | HTTPS con Let's Encrypt, firewall UFW, SSH restringido.              |
-| **Capa de acceso**          | Dominio personalizado + conexión segura desde cualquier dispositivo. |
+La arquitectura utiliza un enfoque estático porque el proyecto no requiere actualmente una base de datos, autenticación ni procesamiento dinámico en el servidor. Después de ejecutar el proceso de `build`, Astro genera los archivos que Nginx puede servir directamente a los usuarios.
 
-### Justificación de decisiones técnicas
+Esto permite reducir el consumo de recursos del servidor, simplificar el mantenimiento y disminuir la superficie de ataque.
 
-- **Estático vs dinámico:** Al ser contenido educativo sin interacción compleja, un sitio estático reduce costos, mejora rendimiento y elimina vulnerabilidades de bases de datos o sesiones.
-- **Nginx sin Node.js en producción:** Tras el build, solo se sirven archivos estáticos, lo que minimiza el consumo de RAM y la superficie de ataque.
-- **GitHub como fuente de verdad:** Permite versionado, colaboración y recuperación ante desastres con solo un `git clone`, asegurando un control total del ciclo de vida de la aplicación.
+El acceso público se realiza directamente mediante la **IP pública de la máquina virtual de Azure**, sin utilizar un dominio ni configuración DNS para esta entrega.
 
-### Seguridad aplicada
+</details>
 
-- El acceso remoto al servidor está restringido mediante autenticación por llaves **SSH**.
-- Firewall (UFW) permitiendo solo puertos 22 (SSH), 80 (HTTP) y 443 (HTTPS).
-- Certbot renovando automáticamente los certificados SSL provistos por Let's Encrypt para obligar al uso de conexiones cifradas.
-- Actualizaciones automáticas de seguridad en el sistema operativo.
+<!-- Instrucciones de despliegue -->
 
-### Escalabilidad contemplada
+<details>
+<summary style="margin-bottom: 32px;">
+  <h2 style="display: inline; font-size: 1.5em; margin: 0;">☁️ Instrucciones de despliegue</h2>
+</summary>
 
-- La infraestructura permite escalar los recursos de hardware (CPU y RAM) desde el panel de Linode según la demanda futura.
-- Si el tráfico crece, se puede agregar un balanceador de carga y múltiples réplicas del VPS.
-- Si se necesita funcionalidad dinámica (usuarios, progreso), la arquitectura permite agregar una API y una base de datos sin rehacer el frontend, manteniendo el dominio y la estructura actual.
+### 1. Configuración de puertos
 
-## 💰 Presupuesto estimado para la implementación
+Para permitir el acceso al sitio desde Internet, en la configuración de red de la máquina virtual de Azure se habilitaron los puertos:
 
-| Recurso                     | Costo aproximado |
-| --------------------------- | ---------------- |
-| Linode Nanode 1 GB          | USD 5/mes        |
-| Dominio GitHub Student Pack | USD 0            |
-| Let’s Encrypt               | USD 0            |
-| GitHub                      | USD 0            |
-| **Costo total estimado**    | **~USD 5/mes**   |
+- **22:** SSH para la administración remota.
+- **80:** HTTP para el acceso web.
+- **443:** HTTPS, habilitado para permitir conexiones seguras si se utiliza posteriormente un certificado SSL.
 
-Es una solución económica, viable, segura, con mantenimiento sencillo y rendimiento excelente para estudiantes y pequeños proyectos educativos.
+Para esta entrega, el acceso al sitio se realiza mediante la **IP pública del servidor**, por ejemplo:
+
+```text
+http://<IP_PUBLICA>
+```
+
+No se utiliza DNS ni un dominio personalizado.
+
+### 2. Crear y acceder al servidor de Microsoft Azure
+
+Se utiliza una máquina virtual de **Microsoft Azure**, obtenida mediante el beneficio disponible en el **GitHub Student Developer Pack**.
+
+El acceso administrativo al servidor se realiza mediante SSH:
+
+```bash
+ssh -i ~/.ssh/<AZURE_KEY> <USUARIO>@<IP_PUBLICA>
+```
+
+Los valores `<AZURE_KEY>`, `<USUARIO>` e `<IP_PUBLICA>` deben reemplazarse por los correspondientes a la máquina virtual.
+
+### 3. Instalar y configurar Nginx
+
+Se actualiza la lista de paquetes del sistema y se instala Nginx como servidor web:
+
+```bash
+sudo apt update
+sudo apt install nginx -y
+```
+
+Se comprueba que el servicio esté funcionando:
+
+```bash
+sudo systemctl status nginx
+```
+
+>(Si se ve un punto verde que dice active (running), todo va perfecto. Para salir de ese estado se presiona la tecla q).
+
+Los archivos de la web deben ir en la carpeta (por defecto hay un archivo con extensión `.html`):
+
+```bash
+ls -la /var/www/html/
+```
+
+>(Al pegar la IP pública de la máquina virtual en el navegador se debería poder ver una página de bienvenida de Nginx, eso indica que el servidor en la nube está funcionando perfecto ya que es públicamente accesible desde Internet)
+
+### 4. Instalar Node.js
+
+Node.js se utiliza para instalar las dependencias del proyecto y ejecutar el proceso de construcción de Astro.
+
+Se instala Node.js:
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+La instalación se verifica mediante:
+
+```bash
+node --version
+npm --version
+```
+
+### 5. Obtener el proyecto
+
+El proyecto se encuentra versionado en GitHub. Desde el servidor se obtiene el código fuente mediante Git:
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_PROYECTO>
+```
+
+>(Se clona en una carpeta temporal, por ejemplo, se puede clonar en el directorio personal: `~`)
+
+### 6. Instalar dependencias y generar el proyecto
+
+Una vez dentro del proyecto, se instalan las dependencias:
+
+```bash
+npm install
+```
+
+Posteriormente se genera la versión de producción:
+
+```bash
+npm run build
+```
+
+>(Este proceso genera la carpeta `dist/`, que contiene los archivos estáticos que serán publicados.)
+
+### 7. Mover los archivos de la carpeta `dist/` hacia la ruta pública de Nginx:
+
+Después de generar el proyecto, los archivos de la carpeta `dist/` se copian al directorio público utilizado por Nginx:
+
+```bash
+sudo rm -rf /var/www/html/*
+```
+
+```bash
+sudo cp -r dist/* /var/www/html/
+```
+
+>(Este comando debe ejecutarse estando dentro de la carpeta del proyecto, donde se ha generado `dist/`)
+
+Se puede verificar el contenido publicado con:
+
+```bash
+ls -la /var/www/html/
+```
+
+### 8. Actualización del sitio
+
+Cuando se realizan cambios en el proyecto, se obtiene la nueva versión desde GitHub, se reconstruye la aplicación, se hace limpieza por si hay archivos huérfanos en Nginx y se actualizan los archivos:
+
+```bash
+git pull
+npm install
+npm run build
+sudo rm -rf /var/www/html/*
+sudo cp -r dist/* /var/www/html/
+```
+
+De esta manera, GitHub funciona como repositorio y control de versiones, mientras que Azure aloja la versión publicada de la aplicación.
+
+</details>
+
+<!-- Evidencias -->
+
+<details>
+<summary style="margin-bottom: 32px;">
+  <h2 style="display: inline; font-size: 1.5em; margin: 0;">🕵️‍♀️ Evidencias</h2>
+</summary>
+
+Para demostrar el desarrollo y despliegue del proyecto se presentan las siguientes evidencias:
+
+### 1. Máquina virtual de Microsoft Azure
+
+![web vps](./src/assets/images/web-vps.png)
+
+### 2. Repositorio de GitHub
+
+![Captura del repositorio](./src/assets/images/proyecto-abp-repo.png)
+
+### 3. Conexión por SSH a Azure
+
+```bash
+ssh -i ~/.ssh/<AZURE_KEY> <USUARIO>@<IP_PUBLICA>
+```
+
+**Información del sistema:**
+
+```bash
+lsb_release -a
+```
+
+![Conexión SSH](./src/assets/images/conexion-ssh.png)
+
+### 4. Nginx funcionando
+
+**Servidor activo:**
+
+```bash
+sudo systemctl status nginx
+```
+
+![Nginx activo](./src/assets/images/nginx-active.png)
+
+### 5. Sitio desplegado
+
+**Nginx directorio:**
+
+```bash
+ls -la /var/www/html/
+```
+
+![Nginx directorio](./src/assets/images/nginx-directorio.png)
+
+**Zero English funcionando:**
+
+![Zero English funcionando](./src/assets/images/zero-english-funcionando.png)
+
+</details>
